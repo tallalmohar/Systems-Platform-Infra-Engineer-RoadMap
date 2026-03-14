@@ -1,6 +1,43 @@
 import { useState } from "react";
 
-const phases = [
+type ResourcePriority = "CRITICAL" | "HIGH" | "MEDIUM";
+
+type Resource = {
+  name: string;
+  type: string;
+  url: string;
+  priority: ResourcePriority;
+  why: string;
+  hours?: string;
+};
+
+type Paper = {
+  name: string;
+  url: string;
+};
+
+type Project = {
+  number: number;
+  title: string;
+  description: string;
+  why: string;
+  stack: string[];
+};
+
+type Phase = {
+  id: number;
+  title: string;
+  subtitle: string;
+  duration: string;
+  color: string;
+  description: string;
+  note: string;
+  resources: Resource[];
+  papers: Paper[];
+  project: Project | null;
+};
+
+const phases: Phase[] = [
   {
     id: 1,
     title: "Phase 1",
@@ -333,9 +370,9 @@ const priorityColors = {
 
 export default function LearningPlan() {
   const [activePhase, setActivePhase] = useState(1);
-  const [expandedResource, setExpandedResource] = useState(null);
+  const [expandedResource, setExpandedResource] = useState<number | null>(null);
 
-  const phase = phases.find((p) => p.id === activePhase);
+  const phase = phases.find((p) => p.id === activePhase) ?? phases[0];
 
   return (
     <div
